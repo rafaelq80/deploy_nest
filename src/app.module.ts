@@ -23,12 +23,10 @@ import { UsuarioModule } from './usuario/usuario.module';
       url: process.env.DATABASE_URL,
       logging: false,
       dropSchema: false,
-      //entities: ['dist/**/*.entity.ts'],
       ssl: {
         rejectUnauthorized: false,
       },
-      //entities: ['dist/**/*.entity{.ts, .js}'],
-      //synchronize: true,
+      synchronize: true,
       autoLoadEntities: true,
     }),
     PostagemModule,
