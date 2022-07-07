@@ -24,7 +24,7 @@ export class Usuario {
     @ApiProperty() 
     public senha: string
 
-    @Column({type: "longtext" }) 
+    @Column({length: 5000 }) 
     @ApiProperty() 
     public foto: string
 
