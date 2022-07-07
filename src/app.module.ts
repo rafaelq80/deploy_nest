@@ -19,13 +19,12 @@ import { UsuarioModule } from './usuario/usuario.module';
       database: 'db_blogpessoal',
       entities: [Postagem, Tema, Usuario],
       synchronize: true,*/
-      type: 'postgres',
       url: process.env.DATABASE_URL,
       ssl: {
         rejectUnauthorized: false,
       },
-      entities: ['dist/**/*.entity{.ts, .js}'],
-      synchronize: true,
+      //entities: ['dist/**/*.entity{.ts, .js}'],
+      //synchronize: true,
       autoLoadEntities: true,
     }),
     PostagemModule,
