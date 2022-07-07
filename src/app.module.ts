@@ -19,6 +19,7 @@ import { UsuarioModule } from './usuario/usuario.module';
       database: 'db_blogpessoal',
       entities: [Postagem, Tema, Usuario],
       synchronize: true,*/
+      type: 'postgres',
       url: process.env.DATABASE_URL,
       logging: false,
       dropSchema: false,
