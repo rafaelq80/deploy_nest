@@ -2,6 +2,9 @@
 /dist
 /node_modules
 nodemon.json
+npm-debug.log
+.DS_Store
+/*.env
 
 # Logs
 logs
