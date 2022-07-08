@@ -24,9 +24,6 @@ export class PostagemService {
 
     async findOneById(id: number): Promise<Postagem> {
 
-        if(!isNumber(id))
-            throw new HttpException('Id inválido!', HttpStatus.BAD_REQUEST);
-
         let postagem = await this.postagemRepository.findOne({
             where: {
                 id

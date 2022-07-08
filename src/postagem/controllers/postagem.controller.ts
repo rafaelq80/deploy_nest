@@ -3,6 +3,7 @@ import { Postagem } from "../entities/postagem.entity";
 import { PostagemService } from "../services/postagem.service";
 import { JwtAuthGuard } from "src/auth/guard/jwt-auth.guard";
 import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
+import { isNumber } from "class-validator";
 
 @ApiBearerAuth()
 @ApiTags('Postagem')
@@ -20,6 +21,10 @@ export class PostagemController {
   @Get('/:id')
   @HttpCode(HttpStatus.OK)
   findById(@Param('id') id: number): Promise<Postagem> {
+    
+    if(!isNumber(id))
+            throw new HttpException('Id inválido!', HttpStatus.BAD_REQUEST);
+
     return this.postagemService.findOneById(id);
   }
 
