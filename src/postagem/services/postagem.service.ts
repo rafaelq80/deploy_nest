@@ -1,6 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { IsInt, isInt } from "class-validator";
 import { DeleteResult, ILike, Repository } from "typeorm";
+import { isInt16Array } from "util/types";
 import { Postagem } from "../entities/postagem.entity";
 
 @Injectable()
@@ -21,6 +23,9 @@ export class PostagemService {
     }
 
     async findOneById(id: number): Promise<Postagem> {
+
+        if(!isInt(id))
+            throw new HttpException('Id inválido!', HttpStatus.BAD_REQUEST);
 
         let postagem = await this.postagemRepository.findOne({
             where: {
