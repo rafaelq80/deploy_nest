@@ -1,11 +1,12 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { IsEmail, IsNotEmpty } from "class-validator"
+import { IsEmail, IsInt, IsNotEmpty } from "class-validator"
 import { Postagem } from "src/postagem/entities/postagem.entity"
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm"
 
 @Entity({name: "tb_usuarios"})
 export class Usuario {
 
+    @IsInt()
     @PrimaryGeneratedColumn() 
     @ApiProperty()   
     public id: number
