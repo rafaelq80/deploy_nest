@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger"
-import { IsNotEmpty } from "class-validator"
+import { IsNotEmpty, IsNumberString } from "class-validator"
 import { Tema } from "src/tema/entities/tema.entity"
 import { Usuario } from "src/usuario/entities/usuario.entity"
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
@@ -7,6 +7,7 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } f
 @Entity({name: "tb_postagens"})
 export class Postagem {
 
+    @IsNumberString()
     @PrimaryGeneratedColumn()  
     @ApiProperty()   
     id: number
