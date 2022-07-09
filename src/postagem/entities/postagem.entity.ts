@@ -16,6 +16,7 @@ export class Postagem {
     @ApiProperty() 
     titulo: string
 
+    @IsNotEmpty()
     @Column({length: 1000, nullable: false})
     @ApiProperty() 
     texto: string
