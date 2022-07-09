@@ -7,7 +7,6 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } f
 @Entity({name: "tb_postagens"})
 export class Postagem {
 
-    @IsNumberString()
     @PrimaryGeneratedColumn()  
     @ApiProperty()   
     id: number

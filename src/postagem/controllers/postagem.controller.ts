@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, HttpCode, HttpStatus, Param, Body, HttpException, UseGuards } from "@nestjs/common";
+import { Controller, Get, Post, Put, Delete, HttpCode, HttpStatus, Param, Body, HttpException, UseGuards, ParseIntPipe } from "@nestjs/common";
 import { Postagem } from "../entities/postagem.entity";
 import { PostagemService } from "../services/postagem.service";
 import { JwtAuthGuard } from "src/auth/guard/jwt-auth.guard";
@@ -19,7 +19,7 @@ export class PostagemController {
 
   @Get('/:id')
   @HttpCode(HttpStatus.OK)
-  findById(@Param('id') id: number): Promise<Postagem> {
+  findById(@Param('id', ParseIntPipe) id: number): Promise<Postagem> {
     return this.postagemService.findOneById(id);
   }
 
