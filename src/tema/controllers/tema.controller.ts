@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, Post, Put, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpException, HttpStatus, Param, ParseIntPipe, Post, Put, UseGuards } from "@nestjs/common";
 import { Tema } from "../entities/tema.entity";
 import { TemaService } from "../services/tema.service";
 import { JwtAuthGuard } from "src/auth/guard/jwt-auth.guard";
@@ -19,7 +19,7 @@ export class TemaController {
 
   @Get('/:id')
   @HttpCode(HttpStatus.OK)
-  findById(@Param('id') id: number): Promise<Tema> {
+  findById(@Param('id', ParseIntPipe) id: number): Promise<Tema> {
     return this.temaService.findOneById(id);
   }
 
@@ -43,7 +43,7 @@ export class TemaController {
 
   @Delete('/:id')
   @HttpCode(HttpStatus.NO_CONTENT)
-  delete(@Param('id') id: number) {
+  delete(@Param('id', ParseIntPipe) id: number) {
     const resultadoDelete = this.temaService.delete(id);
     
     if (resultadoDelete === undefined)

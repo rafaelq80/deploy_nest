@@ -52,6 +52,7 @@ export class PostagemService {
     }
 
     async create(postagem: Postagem): Promise<Postagem> {
+        
         return await this.postagemRepository.save(postagem);
     }
 
