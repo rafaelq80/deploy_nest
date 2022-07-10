@@ -3,13 +3,15 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { IsInt, isInt, isNumber } from "class-validator";
 import { DeleteResult, ILike, Repository } from "typeorm";
 import { isInt16Array } from "util/types";
+import { TemaService } from "../../tema/services/tema.service";
 import { Postagem } from "../entities/postagem.entity";
 
 @Injectable()
 export class PostagemService {
     constructor(
         @InjectRepository(Postagem)
-        private postagemRepository: Repository<Postagem>
+        private postagemRepository: Repository<Postagem>,
+        private temaService: TemaService
     ) { }
 
     async findAll(): Promise<Postagem[]> {
@@ -52,7 +54,17 @@ export class PostagemService {
     }
 
     async create(postagem: Postagem): Promise<Postagem> {
-        
+       
+        if (postagem.tema){
+            const tema = await this.temaService.findOneById(postagem.tema.id)
+            
+            if (!tema)
+                throw new HttpException('Tema não encontrado!', HttpStatus.NOT_FOUND);
+            
+            return await this.postagemRepository.save(postagem);
+
+        }
+
         return await this.postagemRepository.save(postagem);
     }
 
@@ -62,6 +74,16 @@ export class PostagemService {
 
         if (post === undefined)
             throw new HttpException('Postagem não encontrada!', HttpStatus.NOT_FOUND);
+
+        if (postagem.tema){
+            const tema = await this.temaService.findOneById(postagem.tema.id)
+                
+            if (!tema)
+                throw new HttpException('Tema não encontrado!', HttpStatus.NOT_FOUND);
+                
+            return await this.postagemRepository.save(postagem);
+    
+        }
         
         return await this.postagemRepository.save(postagem);
     }
