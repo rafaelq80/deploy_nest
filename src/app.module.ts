@@ -40,4 +40,3 @@ import { UsuarioModule } from './usuario/usuario.module';
   providers: [],
 })
 export class AppModule {}
-
