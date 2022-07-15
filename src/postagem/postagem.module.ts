@@ -1,3 +1,5 @@
+import { UsuarioModule } from 'src/usuario/usuario.module';
+import { UsuarioService } from 'src/usuario/services/usuario.service';
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { TemaService } from "../tema/services/tema.service";

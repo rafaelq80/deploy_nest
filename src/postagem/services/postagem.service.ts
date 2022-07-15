@@ -4,6 +4,7 @@ import { IsInt, isInt, isNumber } from "class-validator";
 import { DeleteResult, ILike, Repository } from "typeorm";
 import { isInt16Array } from "util/types";
 import { TemaService } from "../../tema/services/tema.service";
+import { UsuarioService } from "../../usuario/services/usuario.service";
 import { Postagem } from "../entities/postagem.entity";
 
 @Injectable()
@@ -56,8 +57,9 @@ export class PostagemService {
     async create(postagem: Postagem): Promise<Postagem> {
        
         if (postagem.tema){
-            const tema = await this.temaService.findOneById(postagem.tema.id)
             
+            let tema = await this.temaService.findOneById(postagem.tema.id)
+
             if (!tema)
                 throw new HttpException('Tema não encontrado!', HttpStatus.NOT_FOUND);
             
