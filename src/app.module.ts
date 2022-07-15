@@ -11,7 +11,7 @@ import { UsuarioModule } from './usuario/usuario.module';
 
 @Module({
   imports: [
-   /* TypeOrmModule.forRoot({
+    /*TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
       port: 3306,

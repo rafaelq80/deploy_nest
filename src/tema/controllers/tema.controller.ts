@@ -6,7 +6,7 @@ import { ApiBearerAuth, ApiTags } from "@nestjs/swagger";
 
 @ApiBearerAuth()
 @ApiTags('Tema')
-@Controller("/temas")
+@Controller("/tema")
 @UseGuards(JwtAuthGuard)
 export class TemaController {
   constructor(private readonly temaService: TemaService) { }
