@@ -17,7 +17,12 @@ async function bootstrap() {
   SwaggerModule.setup('/swagger', app, document);
 
   process.env.TZ = '-03:00';
-  app.enableCors()
+  app.enableCors(
+    {
+      origin: "*",
+      allowedHeaders: "*"
+    }
+  )
   app.useGlobalPipes(new ValidationPipe());
   await app.listen(process.env.PORT || 3000);
 }
