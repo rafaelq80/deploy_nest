@@ -27,7 +27,7 @@ export class AuthService {
       
         return {
           usuario: user.usuario, // Mudar aqui
-          access_token: `Bearer ${this.jwtService.sign(payload)}`,
+          token: `Bearer ${this.jwtService.sign(payload)}`,
         };
       }
     
