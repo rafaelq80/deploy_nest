@@ -1,8 +1,7 @@
+import { Usuario } from './../../usuario/entities/usuario.entity';
 import { HttpException, HttpStatus, Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { IsInt, isInt, isNumber } from "class-validator";
 import { DeleteResult, ILike, Repository } from "typeorm";
-import { isInt16Array } from "util/types";
 import { TemaService } from "../../tema/services/tema.service";
 import { UsuarioService } from "../../usuario/services/usuario.service";
 import { Postagem } from "../entities/postagem.entity";
@@ -12,7 +11,8 @@ export class PostagemService {
     constructor(
         @InjectRepository(Postagem)
         private postagemRepository: Repository<Postagem>,
-        private temaService: TemaService
+        private temaService: TemaService,
+        private usuarioService: UsuarioService
     ) { }
 
     async findAll(): Promise<Postagem[]> {
@@ -55,15 +55,36 @@ export class PostagemService {
     }
 
     async create(postagem: Postagem): Promise<Postagem> {
-       
-        if (postagem.tema){
-            
-            let tema = await this.temaService.findOneById(postagem.tema.id)
 
-            if (!tema)
-                throw new HttpException('Tema não encontrado!', HttpStatus.NOT_FOUND);
+        if (postagem.tema || postagem.usuario){
             
-            return await this.postagemRepository.save(postagem);
+            if(!postagem.tema){
+
+                let usuario = await this.usuarioService.findOneById(postagem.usuario.id)
+                
+                if (!usuario)
+                    throw new HttpException('Usuario não encontrado!', HttpStatus.NOT_FOUND);
+                
+                return await this.postagemRepository.save(postagem);
+            
+            }else if(!postagem.usuario){
+
+                let tema = await this.temaService.findOneById(postagem.tema.id)        
+            
+                if (!tema)
+                throw new HttpException('Tema não encontrados!', HttpStatus.NOT_FOUND);
+
+                return await this.postagemRepository.save(postagem);
+                
+            }else{
+
+                let tema = await this.temaService.findOneById(postagem.tema.id) 
+                let usuario = await this.usuarioService.findOneById(postagem.usuario.id)
+
+                if (!tema || !usuario )
+                    throw new HttpException('Tema e/ou Usuário não encontrados!', HttpStatus.NOT_FOUND);
+            
+            }
 
         }
 
@@ -77,17 +98,42 @@ export class PostagemService {
         if (post === undefined)
             throw new HttpException('Postagem não encontrada!', HttpStatus.NOT_FOUND);
 
-        if (postagem.tema){
-            const tema = await this.temaService.findOneById(postagem.tema.id)
+            if (postagem.tema || postagem.usuario){
+            
+                if(!postagem.tema){
+
+                    let usuario = await this.usuarioService.findOneById(postagem.usuario.id)
+                    
+                    if (!usuario)
+                        throw new HttpException('Usuario não encontrado!', HttpStatus.NOT_FOUND);
+                    
+                    return await this.postagemRepository.save(postagem);
                 
-            if (!tema)
-                throw new HttpException('Tema não encontrado!', HttpStatus.NOT_FOUND);
-                
-            return await this.postagemRepository.save(postagem);
+                }else if(!postagem.usuario){
     
-        }
+                    let tema = await this.temaService.findOneById(postagem.tema.id)        
+                
+                    if (!tema)
+                    throw new HttpException('Tema não encontrados!', HttpStatus.NOT_FOUND);
+    
+                    return await this.postagemRepository.save(postagem);
+                    
+                }else{
+    
+                    let tema = await this.temaService.findOneById(postagem.tema.id) 
+                    let usuario = await this.usuarioService.findOneById(postagem.usuario.id)
+    
+                    if (!tema || !usuario )
+                        throw new HttpException('Tema e/ou Usuário não encontrados!', HttpStatus.NOT_FOUND);
+                
+                }
+                
+                return await this.postagemRepository.save(postagem);
+    
+            }
+    
+            return await this.postagemRepository.save(postagem);
         
-        return await this.postagemRepository.save(postagem);
     }
 
     async delete(id: number): Promise<DeleteResult> {
